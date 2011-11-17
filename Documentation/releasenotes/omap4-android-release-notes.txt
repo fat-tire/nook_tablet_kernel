@@ -1,0 +1,298 @@
+# =====================================================================
+# L27.13.1-Beta Gingerbread 2.3.3 Hand-off
+# =====================================================================
+ 
+Author: Leed Aguilar
+Date: May 23th 2011
+Target Release: L27.13.1 Beta
+Destination: rel_l27x_handoff@list.ti.com
+ 
+# =====================================================================
+# Configuration Settings
+# =====================================================================
+ 
+[KERNEL]
+Repo   : git://git.omapzoom.org/kernel/omap.git
+Branch : p-android-omap-2.6.35
+Tag    : android-2.6.35-2.3-omap4.13.1-Beta
+Config : android_4430_defconfig
+ 
+[U-BOOT]
+Repo   : git://git.omapzoom.org/repo/u-boot.git
+Branch : omap4_dev
+Tag:   : L27.13.1-Beta
+Commit : 601ff71c8d46b5e90e13613974a16d10f2006bb3
+Config : omap4430sdp_config
+ 
+[X-LOADER]
+Repo   : git://git.omapzoom.org/repo/x-loader.git
+Branch : omap4_dev
+Tag:   : L27.13.1-Beta
+Commit : 1aee45bbcf4f94cd4558315f5a5464ae33ce84b4
+Config : omap4430sdp_config
+ 
+OS: Linux 2.6.35
+Platform: SDP4430 OMAP4 ES2.2 EMU with ARM-A9-SMP@1Ghz
+          DDR@200Mhz, ES1.1 phoenix
+Toolchain: arm-none-linux-gnueabi-gcc (Sourcery G++ Lite 2010q1-202) 4.4.1
+ 
+# =====================================================================
+# Cloning/Compile information
+# =====================================================================
+ 
+Kernel:
+-------
+1. git clone git://git.omapzoom.org/kernel/omap.git; cd omap/
+2. git checkout -b L27.13.1-Beta android-2.6.35-2.3-omap4.13.1-Beta
+3. make ARCH=arm CROSS_COMPILE=arm-none-linux-gnueabi- android_4430_defconfig
+4. make ARCH=arm CROSS_COMPILE=arm-none-linux-gnueabi- uImage
+** Output: uImage
+ 
+u-boot:
+-------
+1. git clone  git://git.omapzoom.org/repo/u-boot.git; cd u-boot/
+2. git checkout -b L27.13.1-Beta 601ff71c8d46b5e90e13613974a16d10f2006bb3
+3. make ARCH=arm CROSS_COMPILE=arm-none-linux-gnueabi- omap4430sdp_config
+4. make ARCH=arm CROSS_COMPILE=arm-none-linux-gnueabi-
+** Output: u-boot.bin
+ 
+x-loader:
+---------
+1. git clone git://git.omapzoom.org/repo/x-loader.git; cd x-loader/
+2. git checkout -b L27.13.1-Beta 1aee45bbcf4f94cd4558315f5a5464ae33ce84b4
+3. make ARCH=arm CROSS_COMPILE=arm-none-linux-gnueabi- omap4430sdp_config
+4. make ARCH=arm CROSS_COMPILE=arm-none-linux-gnueabi- ift
+ 
+# =====================================================================
+# Important Notes
+# =====================================================================
+ 
+Install: Sourcery G++ Lite 2010q1-202 for ARM GNU/Linux
+http://www.codesourcery.com/sgpp/lite/arm/portal/release1293
+ 
+* This Release is intended to be used for Android Gingerbread 2.3.3
+ 
+How obtain the Android source code:
+ 
+$ repo init -u git://git.omapzoom.org/platform/omapmanifest.git -b gingerbread
+$ repo sync
+$ cp device/ti/blaze/buildspec.mk.default buildspec.mk
+$ make -j2
+Output:
+See filesystem in:
+    out/target/product/blaze/...
+        * root/
+        * system/
+ 
+For more information on how to compile the Android Filesystem visit:
+http://omappedia.org/wiki/Android_Getting_Started#Building_Android
+ 
+[HIGHLIGHTS]
+
+- Add tps6130x regulator for TWL6040 VDDHF
+- OMAP4:NET:Add suspend/resume to eth
+- ABE HAL: Update to release 09.30
+- HDMI: several power management fixes 
+- OMAP4: Update the ES2.3 detection
+- OMAP: Allocate DMA-coherent memory space for SO write.
+- DPLL cascading mode fixes
+- OMAP4: Update hotplug governor policy
+- OMAP4: PM: Make EMIF interrupts wakeup capable
+- OMAP4:PM:IO optimization pafconf settings
+- General Power management and clock fixes
+- HSI General fixes
+
+[ADB over USB SUPPORT]
+
+Linux PC:
+http://omappedia.com/wiki/Support_Tools#Android_Gadget_ADB:_Linux_PC_Host
+
+Windows PC:
+http://omappedia.com/wiki/Support_Tools#Android_Gadget_ADB:_Windows_PC_Host
+
+More info about ADB can be found here:
+http://omappedia.org/wiki/Support_Tools
+
+# =====================================================================
+# Defects opened
+# =====================================================================
+
+OMAPS00235918	SD-CARD is getting corrupted in log duration AV Record
+OMAPS00238376	Smart-Reflex input Clk is not re-configured upon DPLL ...
+
+# =====================================================================
+# Defects rejected/blocked
+# =====================================================================
+
+None
+
+# =====================================================================
+# Defects closed/resolved
+# =====================================================================
+
+OMAPS00236831	USB Certification: Back Voltage testing fails
+OMAPS00238138	Kernel Panic at at hdmi_disable_video during device ...
+OMAPS00238053	Detect dedicated charger on OMAP4
+OMAPS00232725	PT Robustness SMC:4 SMC Stability  tests do not run ...
+OMAPS00238081	Blaze fails Mass Storage Class (MSC) Certification Test
+OMAPS00237871	USB Interoperability Testing fail - File transfer ...
+OMAPS00236551	USB devices attached to USB hub attached to OTG port ...
+OMAPS00236959	[Cosmo PM] Alarm RTC Wake up Random Fail .
+OMAPS00236958	[Cosmo PM] System Does not go to OFF Mode during ...
+OMAPS00234955	PT: MODEM : Display turns off unexpectedly during ...
+OMAPS00232172	PT:PPM: OFF Mode power consumption does not meet ...
+OMAPS00238446	L27.12.1-P2: Time is not saved when device goes into ...
+OMAPS00239106	USB Certification: USBCV Mass Storage Class (MSC) ...
+OMAPS00236410	Blaze Wired Ethernet remains ON during OFF mode ...
+OMAPS00238332	[TI_SW][Defect][TOTORO_BSP][UART] - Serial connection ...
+OMAPS00236832	[APPS] MP3 audio quality degraded when in DPLL ...
+OMAPS00239657	[APPS]: TWL6030: Return correct regulator state for ...
+OMAPS00239627	"T1_BSP : [USB] Device does not enter ""Suspend"" ...
+OMAPS00239500	[SHAD_BSP] Duration of mdelay and udelay depends on ...
+
+# =====================================================================
+# Kernel Changelist
+# =====================================================================
+
+Kernel stats from previous L27.13.1 HO: 136 new patches introduced
+
+153 files changed, 9188 insertions(+), 3207 deletions(-)
+
+3fe202b OMAP4: clock: DPLL cascading cannot invoke CPUfreq
+fabdd9f OMAP4: fix warm reset via DPLL_ABE work around
+728ac43 OMAP4: SR: handle SRCLKLENGTH for DPLL cascading
+5e6ca03 OMAP4:DPLL exit case fix for MMC
+8e05e1d OMAP4:I2C DPLL exit fix
+e280954 USB: gadget: composite: Use separate switches for connected and config state
+12ac850 OMAP4:Fix I2C PSC in DPLL mode idle
+783d12c OMAP4 DSS HDMI: Modifications for HDCP manual mode support
+81eaedc OMAP4 DSS HDMI: fix hot plug status notification for custom timing
+f09be49 Revert "OMAP4 DSS HDMI: fix hot plug status notification for custom timing
+cee2404 USB: MUSB: Set USB charger in High impedence mode on VBUS
+93688ef Revert "OMAP4: DSS Inactivity support"
+88670bf OMAP4 DSS: Force the highet low threshold value for clips bigger than 720p
+fa50b6f OMAP3+: xSI: extended HSI channel range for hsi_char
+fc7253c OMAP4: HSI: Prevent L3INIT to enter RET/OFF when CAWAKE is high
+6188d59 OMAP3+: xSI: unmap DMA region on R/W cancel
+da03a51 OMAP4:PM:IO optimization pafconf settings
+3e7207e OMAP4:I2C psc reconfiguration to support DPLL cascading
+c190407 The HSMMC output clock handling to support DPLL cascading
+bb93990 OMAP3+: clock: bypassed DPLL clkout recalc
+1abb17e OMAP4 : DPLL : UART's to recalib. baud rates on functional clk
+91ab0c1 OMAP4 : UART : Removes recalib baud rate from DPLL Framework
+005fc70 OMAP4: clock: don't touch CM_SCALE_FCLK in LP mode
+17dbf46 OMAP4: Clock: use clk fwk apis in DPLL cascading
+a3f4af3 OMAP4: clock: populate "speculate" function ptrs
+fe94c5f OMAP: clock: add pre/post clock notifiers
+ad92722 OMAP2/3 clock: implement clock notifier registration infrastructure
+b4ac2ca OMAP4: PM: Make EMIF interrupts wakeup capable.
+afdcdf3 TWL: RTC: make IRQ threaded to read I2C
+91829d4 [OMAP4] Update hotplug governor policy
+a9c2032 OMAP4: DSS Inactivity support
+03cd8c4 DISPLAY: Suspend/Shutdown/Resume sequence atomic to avoid race condition and proper state checks
+dca0e7e bh1780: Clear lux values when the device is turned on
+ff854d9 bh1780gli: Make the light sensor report coming out of suspend
+a49577b OMAP4 DSS HDMI: fix hot plug status notification for custom timing
+518d3c8 OMAP4 DSS HDMI: fix kernel crash due to incorrect disabling of digital channel
+67de076 OMAP4 DSS HDMI: Fix release of L3 constraints twice
+b0dbbd6 omap: serial: save and restore LCR
+fc57408 syslink: devh: Fix build break with SYSLINK_RECOVERY disabled
+4e5747d iommu: store pid in iommu drivers private data
+291c9f8 syslink: ipc: store pid in ipc drivers private data
+bd97260 syslink: ipu_pm: avoid save ipu ctx if recovery happened
+6c49ed1 TILER: Use owner's pid to notify devh
+c75157c syslink: ipu_pm: fix kernel warning trace after wd in recovery
+3fe4470 syslink: ipu_pm: call complete_all in all cases
+1dc1660 syslink: devh: use the pid passed to the devh
+a54515e syslink: notify: add missing protection to register/unregister
+da9ab41 syslink: notify: add a mutext to protect notify drivers_handles
+74dc97f syslink: ipc: unregister notify cbk before destroying transportshm
+cab4743 OMAP: UART : Fixes the boot failure for lower baud rates
+6565b90 TWL-Core: Modify the PREQ mask for TWL6030
+2f9cb22 Merge "drivers:misc:ti-st: fix skip remote baud logic" into p-android-omap-2.6.35
+4dc303a Merge "drivers:misc: ti-st: avoid a misleading dbg msg" into p-android-omap-2.6.35
+c37683f drivers:misc:ti-st: fix skip remote baud logic
+f296c88 drivers:misc: ti-st: avoid a misleading dbg msg
+56237ee Proximity: This is a work around for the proximity sensor
+352c5e9 OMAP4 DSS HDMI: fix video_power mode for hdmi in suspend-resume
+eb9d5dd OMAP4 DSS HDMI: move edid prints info to debug printk level8
+c298f7d OMAP4 DSS HDMI: Fix HDMI connect - disconnect path upon resume
+725e772 OMAP4 DSS HDMI: Set core constraints for HDMI
+8813bce GPS: Change in max_frame_size of the GPS driver.
+46d83f8 syslink: ipu_pm: Use 16-bit field size for hibernation flags
+c5252be USB: OTG: Turn on ID comparator on Probe
+bb1c8b7 SGX-KM: Reduce PB heap to 16M and increase General Heap size
+caaf62a ASoC: ABE: Use the right threshold for Modem McBSP frontend
+d0b34be ASoC: ABE DAI: support 2 channels for MODEM DAI
+e385719 ASoC: ABE DSP: Add controls for DL1/DL2 mono mixers
+e624393 ASoC: ABE HAL: ABE HAL 9.30 voice recording during BT call
+496a40b ASoC: ABE HAL: Update to release 09.30
+aa07dfd ASoC: ABE HAL: Update to release 09.25
+c72a338 ASoC: ABE HAL: update license header for ABE
+763722f OMAP4: HSI: Enhanced fix for cpuidle wakeup latency reduction
+e936246 OMAP3+: xSI: Fix debugfs crash when reading FIFO TX/RX register
+f472ab6 OMAP4: HSI: add HSI DMA as wakeup event from MPU OFF
+531b9be OMAP3+: xSI: Put HSR into SLEEP mode in INA/RET
+39ef692 OMAP4: HSI: Fix for early DMA interrupt without data transfer
+f41ae03 OMAP4: HSI: Fix for ACREADY asserted before HSI module readiness
+ffe3c4d OMAP4: HSI: Changed CAWAKE/ACREADY Pad configuration
+eb2ffa1 OMAP4: HSI: Fix for HSI_IOCTL_GET_CAWAKE not working in HSI
+cfb37b5 OMAP3+: HSI/SSI: added channel number in debug traces
+7111ed6 OMAP3+: HSI/SSI: fix CAWAKE vs RX tasklet possible race condition
+19e36ae OMAP3+: HSI/SSI: adding return status in R/W cancel function
+0e747dc OMAP4: Resolve compiler warning for ID file
+891d705 OMAP4: Update the ES2.3 detection
+6defa1d OMAP3: wlan: Clock speed fix for wl1271
+30ab95a OMAP3: BATTERY: modify battery report info to suit gingerbread.
+eeb01a8 ZOOM3: turned on ISP resizer on overlay in defconfig
+a74a2d8 OMAP3: v4l2: added device attrs to select resizer
+52dc5e8 OMAP3: v4l2: use ISP resizer for 720p playback and 1/8x downscaling
+02fef41 OMAP3 ISP: Avoid race condition when writing to PRV_PCR.
+4e79474 SYNTM12XX Touch screen: Add controller number to the board data
+c3876d1 SGX-KM: PVR2DAPI : custom flush operation for wrapped memory regions
+1af4844 sdp4430: add tcxo_clock configuration in wl12xx_platform_data
+76f154b wl12xx: add tcxo clock to wl12xx_platform_data definition
+ee7357b omap4: boards: trim board names
+79931c2 [ARM] cpu info: Fix cpu_is_4430 to return the correct value
+ef77a3b PM:CPUFREQ: NULL pointer check before calling policy gov specific boost api
+0a6abec OMAP3: Updated Android Zoom3 Defconfig
+c7fc207 OMAP4: Pl310 flush and SO write around WFI.
+2a871c0 OMAP: Allocate DMA-coherent memory space for SO write.
+4100cba OMAP3: PM: Use generic TRITON power scripts for ZOOM
+5baabd6 OMAP3: Reserve 60k of SRAM for security when SMC driver is enabled
+f0a50cf OMAP3: OPP structure and function changes
+b881c08 OMAP3: adjust OMAP_VOUT_MAX_BUF_SIZE
+24a166a OMAP4 DSS HDMI: Make hdmi suspend resume fix specific to OMAP4
+005a560 OMAP4:PM:Enable SRAM LDO RETMODE Only for Trimmed units
+4a2533b OMAP4: HSI: fix for cpuidle wakeup latency reduction
+e4386e5 OMAP4:NET:Add suspend/resume to eth
+7e0bfcb TWL6030:Regulator: enable/disable Vaux3 LDO in syslink
+35077fc OMAP4: PM: Clean CPUidle path
+54746e6 OMAP4: Disable/Enable SD for MPU upon display off
+a0fd558 OMAP4: Enable tps6130x driver in android_4430_defconfig
+6cd77b2 OMAP4: sdp4430: Add tps6130x regulator for TWL6040 VDDHF
+3d0e01b ASoC: sdp4430: Remove tps6130x regulator management
+4d730ef ASoC: twl6040: Add VDDHF regulator
+eba6c5f regulator: tps6130x: Add support for TI tps6130x regulator
+8d01f45 OMAP3: Enable SmartReflex Class 1.5
+aed3cdc OMAP3+: voltage: introduce api to protect sr ops
+aea8d2e OMAP3630+: SR: add support for class 1.5
+8c70b87 OMAP3+: SR: make enable path use volt_data pointer
+ed1a8e2d OMAP3+: SR: disable spamming interrupts
+dda30ae OMAP3+: SR: introduce notifier_control
+a36d99d OMAP3+: SR: introduce notifiers flags
+7edc75c OMAP3+: SR: introduce class start,stop and priv data
+9cea857 OMAP3+: SR: enable/disable SR only on need
+de2ea5a OMAP3+: SR: disable interrupt by default
+e0182b4 OMAP3+: SR: make notify independent of class
+203933a OMAP3+: voltage: add transdone APIs
+af2ef89 OMAP3+ voltage: init ocp_mod and irqstat only once
+b47632c OMAP3+: voltage: use volt_data pointer instead values
+c9d62fa OMAP3+: voltage: remove spurious pr_notice for debugfs
+f71c158 OMAP3+: voltage: remove hardcoded initial voltage
+29e232c OMAP3: hwmod: add SmartReflex IRQs
+1022bad omap: sr: device: print test ntarget when used
+38357f5 omap3630: sdp3630 - add support for init of opps
+871fb31 OMAP3+ voltage: fix up SR enable/disable
+
+# =====================================================================

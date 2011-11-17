@@ -1,0 +1,6 @@
+lib1funcs.S
+piggy.gzip
+piggy.lzma
+piggy.lzo
+vmlinux
+vmlinux.lds
